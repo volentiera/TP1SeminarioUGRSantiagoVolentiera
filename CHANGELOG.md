@@ -49,3 +49,14 @@
 - Implementación de la función `leer_csv` para parsear los archivos utilizando `csv.DictReader`.
 - Implementación de la función `cargar_datos` para instanciar las entidades del dominio (incluyendo la composición de `Precio`) a partir de los diccionarios leídos.
 - Integración de la precarga con la capa de servicios, incluyendo el manejo de excepciones `ValueError` para omitir silenciosamente la inserción de registros duplicados.
+
+## [2026-04-25]
+
+### Añadido
+#### Módulo de Interfaz de Usuario (`price_manager/ui/console.py`)
+- Creación de la clase `InterfazConsola` para la interacción por línea de comandos (CLI).
+- Implementación de un menú principal persistente con navegación por opciones numéricas.
+- Desarrollo de sub-menús para la visualización de productos (incluyendo precios y monedas) y gestión de maestros (categorías y proveedores).
+- Implementación de un sistema interactivo de ajuste de stock con entrada de datos y validación de errores en tiempo real.
+- Integración de consultas de históricos de cotización de divisas.
+- Inyección de la capa de servicios en la UI para garantizar la separación de responsabilidades entre la visualización y la lógica de negocio.
