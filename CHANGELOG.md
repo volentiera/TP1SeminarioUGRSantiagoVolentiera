@@ -36,3 +36,27 @@
 - Desarrollo de `ServicioStock` con lógica para el registro de movimientos (entradas/salidas) y validación de stock inicial no negativo.
 - Desarrollo de `ServicioCotizacionDolar` para la gestión de registros históricos y validación de tipos de cotización existentes.
 - Aplicación de inyección de dependencias para desacoplar la lógica de negocio de los repositorios.
+
+## [2026-04-24]
+
+### Añadido
+
+#### Módulos de Migraciones y Precarga de Datos (`price_manager/migrations/` y `price_manager/preload_data/preload_data.py`)
+- Creación de script de migraciones para generar archivos CSV con datos semilla (hardware y componentes de PC).
+- Creación automática del directorio de almacenamiento `price_manager/migrations/csv`.
+- Generación de 10 registros iniciales para las entidades: `categorias`, `proveedores`, `monedas`, `tipos_cotizacion` y `productos`.
+- Creación del archivo `preload_data.py` para la lectura e hidratación de datos.
+- Implementación de la función `leer_csv` para parsear los archivos utilizando `csv.DictReader`.
+- Implementación de la función `cargar_datos` para instanciar las entidades del dominio (incluyendo la composición de `Precio`) a partir de los diccionarios leídos.
+- Integración de la precarga con la capa de servicios, incluyendo el manejo de excepciones `ValueError` para omitir silenciosamente la inserción de registros duplicados.
+
+## [2026-04-25]
+
+### Añadido
+#### Módulo de Interfaz de Usuario (`price_manager/ui/console.py`)
+- Creación de la clase `InterfazConsola` para la interacción por línea de comandos (CLI).
+- Implementación de un menú principal persistente con navegación por opciones numéricas.
+- Desarrollo de sub-menús para la visualización de productos (incluyendo precios y monedas) y gestión de maestros (categorías y proveedores).
+- Implementación de un sistema interactivo de ajuste de stock con entrada de datos y validación de errores en tiempo real.
+- Integración de consultas de históricos de cotización de divisas.
+- Inyección de la capa de servicios en la UI para garantizar la separación de responsabilidades entre la visualización y la lógica de negocio.
