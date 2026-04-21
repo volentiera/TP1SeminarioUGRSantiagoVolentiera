@@ -23,3 +23,16 @@
 - Implementación de la clase RepositorioStock con operaciones específicas basadas en producto_id.
 - Implementación de la clase RepositorioCotizacionDolar con almacenamiento en listas y métodos específicos para búsquedas por tipo y fecha.
 - Incorporación de validaciones para evitar duplicados y control de existencia de registros (manejo de errores con ValueError).
+
+## [2026-04-23]
+
+### Añadido
+
+#### Módulo de Servicios (price_manager/services/services.py)
+- Creación del archivo de la capa de servicios (lógica de negocio).
+- Implementación de `ServicioGenerico` para centralizar operaciones CRUD básicas y manejo de errores de entidades no encontradas.
+- Definición de servicios específicos para `Categoria`, `Proveedor`, `Moneda` y `TipoCotizacion`.
+- Implementación de `ServicioProducto` con soporte para dependencias de categorías y proveedores.
+- Desarrollo de `ServicioStock` con lógica para el registro de movimientos (entradas/salidas) y validación de stock inicial no negativo.
+- Desarrollo de `ServicioCotizacionDolar` para la gestión de registros históricos y validación de tipos de cotización existentes.
+- Aplicación de inyección de dependencias para desacoplar la lógica de negocio de los repositorios.
