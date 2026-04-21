@@ -60,3 +60,16 @@
 - Implementación de un sistema interactivo de ajuste de stock con entrada de datos y validación de errores en tiempo real.
 - Integración de consultas de históricos de cotización de divisas.
 - Inyección de la capa de servicios en la UI para garantizar la separación de responsabilidades entre la visualización y la lógica de negocio.
+
+## [2026-04-26]
+
+### Añadido
+
+#### Archivo Principal y Punto de Entrada (`price_manager/main.py`)
+- Creación del script principal de orquestación e inicialización del sistema.
+- Implementación de la función `main` para instanciar y conectar las distintas capas de la arquitectura.
+- Instanciación centralizada de la capa de persistencia en memoria (Repositorios).
+- Instanciación de la capa de lógica de negocio (Servicios) aplicando inyección de dependencias manual.
+- Integración condicional de la función de precarga de datos CSV (`import_default_data`).
+- Inicialización y arranque del bucle principal de la interfaz de consola (`InterfazConsola`).
+- Configuración del bloque de ejecución estándar `if __name__ == "__main__":`.
