@@ -126,3 +126,13 @@
 - Implementación de operaciones CRUD (Create, Read, Update, Delete) para todas las entidades utilizando SQL crudo y la función `text` de SQLAlchemy.
 - Integración del *context manager* transaccional (`self.db.transaccion()`) en cada operación de repositorio para asegurar atomicidad y consistencia.
 - Hidratación automática de entidades vinculadas (composición de objetos) al leer desde la base de datos (Ej. instanciar `Moneda`, `Categoria` y `Proveedor` al leer un `Producto`).
+
+## [2026-05-25]
+
+### Añadido
+#### Integración de API y Variables de Entorno (Ejercicio 07)
+- Creación del archivo `.env` para almacenar la configuración de `API_URL` de forma segura.
+- Actualización de la capa de servicios (`price_manager/services/services.py`).
+- Implementación de la librería `python-dotenv` para la carga de variables de entorno.
+- Incorporación de la función `obtener_cotizaciones` dentro de `ServicioCotizacionDolar` para consumir la API externa (`dolarapi.com`).
+- Lógica de mapeo y registro automático de cotizaciones JSON a la base de datos relacional cruzando con los tipos existentes.
