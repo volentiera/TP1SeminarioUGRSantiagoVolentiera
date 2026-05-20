@@ -116,3 +116,13 @@
 - Implementación de la función `migrar_datos` para leer los datos semilla desde archivos CSV.
 - Generación automática de archivos `.sql` con sentencias de inserción (`INSERT OR IGNORE`).
 - Ejecución de las sentencias SQL en la base de datos utilizando el *context manager* de transacciones seguras.
+
+## [2026-05-24]
+
+### Modificado
+#### Capa de Persistencia a Base de Datos (Ejercicio 06)
+- Refactorización completa del archivo `price_manager/repositories/repositories.py`.
+- Reemplazo del almacenamiento en memoria (diccionarios y listas) por conexión directa a la base de datos SQLite.
+- Implementación de operaciones CRUD (Create, Read, Update, Delete) para todas las entidades utilizando SQL crudo y la función `text` de SQLAlchemy.
+- Integración del *context manager* transaccional (`self.db.transaccion()`) en cada operación de repositorio para asegurar atomicidad y consistencia.
+- Hidratación automática de entidades vinculadas (composición de objetos) al leer desde la base de datos (Ej. instanciar `Moneda`, `Categoria` y `Proveedor` al leer un `Producto`).
