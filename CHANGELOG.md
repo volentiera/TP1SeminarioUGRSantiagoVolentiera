@@ -97,3 +97,13 @@
 - Actualización del archivo `price_manager/database/connection.py`.
 - Implementación de un *context manager* (`transaccion`) en la clase `ConexionDB`.
 - Incorporación de lógica de transacciones seguras con `commit` automático y `rollback` en caso de excepciones.
+
+## [2026-05-22]
+
+### Añadido
+#### Creación de Tablas y Relaciones (Ejercicio 04)
+- Creación del archivo `price_manager/models/models.py`.
+- Implementación de la función `crear_tablas` utilizando sentencias SQL crudas (raw SQL).
+- Definición de la estructura de la base de datos y tipos para: `categorias`, `proveedores`, `monedas`, `tipos_cotizacion`, `productos`, `stock` y `cotizaciones_dolar`.
+- Establecimiento de relaciones (Foreign Keys) e integridad referencial.
+- Uso del *context manager* transaccional para ejecución segura (rollback automático en caso de fallo).
