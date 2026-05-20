@@ -107,3 +107,12 @@
 - Definición de la estructura de la base de datos y tipos para: `categorias`, `proveedores`, `monedas`, `tipos_cotizacion`, `productos`, `stock` y `cotizaciones_dolar`.
 - Establecimiento de relaciones (Foreign Keys) e integridad referencial.
 - Uso del *context manager* transaccional para ejecución segura (rollback automático en caso de fallo).
+
+## [2026-05-23]
+
+### Añadido
+#### Migración de Datos (Ejercicio 05)
+- Creación del archivo `price_manager/migrations/migrations.py`.
+- Implementación de la función `migrar_datos` para leer los datos semilla desde archivos CSV.
+- Generación automática de archivos `.sql` con sentencias de inserción (`INSERT OR IGNORE`).
+- Ejecución de las sentencias SQL en la base de datos utilizando el *context manager* de transacciones seguras.
