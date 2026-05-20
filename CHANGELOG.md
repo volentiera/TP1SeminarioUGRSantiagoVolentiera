@@ -136,3 +136,12 @@
 - Implementación de la librería `python-dotenv` para la carga de variables de entorno.
 - Incorporación de la función `obtener_cotizaciones` dentro de `ServicioCotizacionDolar` para consumir la API externa (`dolarapi.com`).
 - Lógica de mapeo y registro automático de cotizaciones JSON a la base de datos relacional cruzando con los tipos existentes.
+
+## [2026-05-26]
+
+### Añadido
+#### Reportes, Listas Bimonetarias y Exportación (Ejercicio 08)
+- Modificación del menú principal en `price_manager/ui/console.py` para incluir la sección "Reportes y Exportación".
+- Integración de opción interactiva para gatillar la descarga de cotizaciones desde la API.
+- Implementación de lógica de conversión bimonetaria en tiempo real (ARS/USD) según la cotización histórica más reciente de la base de datos.
+- Desarrollo de la función de exportación a CSV iterando sobre todos los productos y calculando equivalencias cruzadas contra todos los tipos de dólar registrados.
