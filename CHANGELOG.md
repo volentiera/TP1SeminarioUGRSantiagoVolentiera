@@ -89,3 +89,11 @@
 - Creación del archivo `price_manager/database/connection.py`.
 - Implementación de la clase `ConexionDB` utilizando `SQLAlchemy` con motor SQLite.
 - Configuración para la creación automática del directorio de la base de datos local (`/content/base_de_datos/`).
+
+## [2026-05-21]
+
+### Añadido
+#### Manejo de Transacciones (Ejercicio 03)
+- Actualización del archivo `price_manager/database/connection.py`.
+- Implementación de un *context manager* (`transaccion`) en la clase `ConexionDB`.
+- Incorporación de lógica de transacciones seguras con `commit` automático y `rollback` en caso de excepciones.
