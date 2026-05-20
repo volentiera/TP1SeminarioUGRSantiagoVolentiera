@@ -73,3 +73,11 @@
 - Integración condicional de la función de precarga de datos CSV (`import_default_data`).
 - Inicialización y arranque del bucle principal de la interfaz de consola (`InterfazConsola`).
 - Configuración del bloque de ejecución estándar `if __name__ == "__main__":`.
+
+## [2026-05-19]
+
+### Añadido
+#### Inicialización Sprint 2 (Ejercicio 01)
+- Creación y cambio a la rama `Sprint_2`.
+- Creación de la estructura de directorios para la base de datos relacional (`database`, `models`, `migrations/sql`).
+- Creación de archivos base vacíos (`connection.py`, `models.py`, `migrations.py`).
