@@ -1,22 +1,17 @@
 from sqlalchemy.sql import text
 from price_manager.database.connection import ConexionDB
 
-def crear_tablas():
+def crear_tablas() -> None:
     """Crea todas las tablas del sistema en la base de datos SQLite usando SQL crudo."""
     db = ConexionDB()
-    
-    # Utilizamos el context manager para asegurar la transacción
+
     with db.transaccion() as conn:
-        
-        # Tabla Categorías
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS categorias (
             id INTEGER PRIMARY KEY,
             nombre VARCHAR NOT NULL
         );
         """))
-        
-        # Tabla Proveedores
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS proveedores (
             id INTEGER PRIMARY KEY,
@@ -24,24 +19,18 @@ def crear_tablas():
             contacto VARCHAR
         );
         """))
-        
-        # Tabla Monedas
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS monedas (
             id INTEGER PRIMARY KEY,
             nombre VARCHAR NOT NULL
         );
         """))
-        
-        # Tabla Tipos de Cotización
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS tipos_cotizacion (
             id INTEGER PRIMARY KEY,
             nombre VARCHAR NOT NULL
         );
         """))
-        
-        # Tabla Productos (con sus claves foráneas)
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS productos (
             id INTEGER PRIMARY KEY,
@@ -57,8 +46,6 @@ def crear_tablas():
             FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
         );
         """))
-        
-        # Tabla Stock (producto_id actúa como PK y FK al mismo tiempo)
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS stock (
             producto_id INTEGER PRIMARY KEY,
@@ -66,8 +53,6 @@ def crear_tablas():
             FOREIGN KEY (producto_id) REFERENCES productos(id)
         );
         """))
-        
-        # Tabla Cotizaciones Dólar
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS cotizaciones_dolar (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -78,7 +63,6 @@ def crear_tablas():
         );
         """))
 
-# Dejamos un bloque de ejecución directa por si se quiere correr solo este archivo
 if __name__ == "__main__":
     crear_tablas()
     print("Tablas creadas exitosamente en la base de datos.")
