@@ -1,0 +1,10 @@
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('1', 'Intel Corp', 'ventas@intel.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('2', 'AMD Latam', 'latam@amd.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('3', 'Nvidia Partners', 'distri@nvidia.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('4', 'Corsair', 'sales@corsair.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('5', 'Gigabyte AR', 'info@gigabyte.ar');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('6', 'Asus Dist', 'ventas@asus.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('7', 'Logitech', 'b2b@logitech.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('8', 'Samsung B2B', 'b2b@samsung.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('9', 'WD Storage', 'sales@wd.com');
+INSERT OR IGNORE INTO proveedores (id, nombre, contacto) VALUES ('10', 'MSI Global', 'contact@msi.com');

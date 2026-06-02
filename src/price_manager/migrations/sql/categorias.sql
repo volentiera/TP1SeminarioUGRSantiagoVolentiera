@@ -1,0 +1,10 @@
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('1', 'Procesadores');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('2', 'Placas de Video');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('3', 'Memorias RAM');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('4', 'Almacenamiento SSD');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('5', 'Fuentes de Poder');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('6', 'Gabinetes');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('7', 'Perifericos');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('8', 'Monitores');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('9', 'Coolers');
+INSERT OR IGNORE INTO categorias (id, nombre) VALUES ('10', 'Notebooks');

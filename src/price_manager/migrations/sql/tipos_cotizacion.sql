@@ -1,0 +1,10 @@
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('1', 'Oficial');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('2', 'Blue');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('3', 'Bolsa');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('4', 'CCL');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('5', 'Cripto');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('6', 'Tarjeta');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('7', 'Mayorista');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('8', 'Minorista');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('9', 'Turista');
+INSERT OR IGNORE INTO tipos_cotizacion (id, nombre) VALUES ('10', 'Futuro');

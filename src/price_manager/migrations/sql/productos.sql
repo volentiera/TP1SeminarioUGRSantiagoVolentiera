@@ -1,0 +1,10 @@
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('1', 'Core i7', 'CPU 12va Gen', '350.0', '2', '2023-10-01', '1', '1');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('2', 'Ryzen 5', 'CPU AMD', '250.0', '2', '2023-10-01', '1', '2');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('3', 'RTX 3060', 'GPU 12GB', '400.0', '2', '2023-10-01', '2', '3');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('4', 'RAM 16GB', 'DDR4 3200MHz', '45000.0', '1', '2023-10-01', '3', '4');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('5', 'SSD 1TB', 'NVMe M.2', '65000.0', '1', '2023-10-01', '4', '9');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('6', 'Fuente 650W', '80 Plus Bronze', '85000.0', '1', '2023-10-01', '5', '4');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('7', 'Gabinete ATX', 'Vidrio Templado', '55000.0', '1', '2023-10-01', '6', '5');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('8', 'Mouse G203', 'RGB', '25000.0', '1', '2023-10-01', '7', '7');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('9', 'Monitor 24', 'IPS 144Hz', '280000.0', '1', '2023-10-01', '8', '8');
+INSERT OR IGNORE INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) VALUES ('10', 'Cooler CPU', 'Aire RGB', '35000.0', '1', '2023-10-01', '9', '10');

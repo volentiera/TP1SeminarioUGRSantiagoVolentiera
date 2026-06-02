@@ -1,0 +1,10 @@
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('1', 'ARS');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('2', 'USD');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('3', 'EUR');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('4', 'BRL');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('5', 'CLP');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('6', 'UYU');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('7', 'GBP');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('8', 'JPY');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('9', 'CAD');
+INSERT OR IGNORE INTO monedas (id, nombre) VALUES ('10', 'AUD');
