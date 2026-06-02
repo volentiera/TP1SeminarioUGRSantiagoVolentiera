@@ -8,7 +8,7 @@ from price_manager.entities.entities import (
 )
 
 class RepositorioCategoria:
-    def __init__(self):
+    def __init__(self) -> None:
         self.db = ConexionDB()
 
     def leer_todos(self) -> List[Categoria]:
@@ -44,7 +44,7 @@ class RepositorioCategoria:
 
 
 class RepositorioProveedor:
-    def __init__(self):
+    def __init__(self) -> None:
         self.db = ConexionDB()
 
     def leer_todos(self) -> List[Proveedor]:
@@ -80,7 +80,7 @@ class RepositorioProveedor:
 
 
 class RepositorioMoneda:
-    def __init__(self):
+    def __init__(self) -> None:
         self.db = ConexionDB()
 
     def leer_todos(self) -> List[Moneda]:
@@ -95,7 +95,7 @@ class RepositorioMoneda:
 
 
 class RepositorioTipoCotizacion:
-    def __init__(self):
+    def __init__(self) -> None:
         self.db = ConexionDB()
 
     def leer_todos(self) -> List[TipoCotizacion]:
@@ -110,7 +110,7 @@ class RepositorioTipoCotizacion:
 
 
 class RepositorioProducto:
-    def __init__(self):
+    def __init__(self) -> None:
         self.db = ConexionDB()
         self.repo_cat = RepositorioCategoria()
         self.repo_prov = RepositorioProveedor()
@@ -166,7 +166,7 @@ class RepositorioProducto:
 
 
 class RepositorioStock:
-    def __init__(self):
+    def __init__(self) -> None:
         self.db = ConexionDB()
 
     def leer_por_producto(self, producto_id: int) -> Optional[Stock]:
@@ -188,7 +188,7 @@ class RepositorioStock:
 
 
 class RepositorioCotizacionDolar:
-    def __init__(self):
+    def __init__(self) -> None:
         self.db = ConexionDB()
         self.repo_tipo = RepositorioTipoCotizacion()
 

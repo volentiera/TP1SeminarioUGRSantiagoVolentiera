@@ -10,7 +10,7 @@ from price_manager.entities.entities import Stock, CotizacionDolar
 load_dotenv()
 
 class ServicioGenerico:
-    def __init__(self, repositorio: Any):
+    def __init__(self, repositorio: Any) -> None:
         self.repo = repositorio
 
     def crear(self, entidad: Any) -> Any:
@@ -39,14 +39,14 @@ class ServicioTipoCotizacion(ServicioGenerico): pass
 
 
 class ServicioProducto(ServicioGenerico):
-    def __init__(self, repo_producto: Any, srv_categoria: Any, srv_proveedor: Any):
+    def __init__(self, repo_producto: Any, srv_categoria: Any, srv_proveedor: Any) -> None:
         super().__init__(repo_producto)
         self.srv_categoria = srv_categoria
         self.srv_proveedor = srv_proveedor
 
 
 class ServicioStock:
-    def __init__(self, repo_stock: Any, srv_producto: Any):
+    def __init__(self, repo_stock: Any, srv_producto: Any) -> None:
         self.repo_stock = repo_stock
         self.srv_producto = srv_producto
 
@@ -69,7 +69,7 @@ class ServicioStock:
 
 
 class ServicioCotizacionDolar:
-    def __init__(self, repo_cotizacion: Any, srv_tipo_cotizacion: Any):
+    def __init__(self, repo_cotizacion: Any, srv_tipo_cotizacion: Any) -> None:
         self.repo_cotizacion = repo_cotizacion
         self.srv_tipo_cotizacion = srv_tipo_cotizacion
 
@@ -113,7 +113,7 @@ class ServicioCotizacionDolar:
                     # evaluamos que no hayamos guardado uno hoy para este tipo.
                     historico_existente = self.obtener_historico(tipo_obj.id)
                     ya_existe_hoy = any(c.fecha == fecha_hoy for c in historico_existente)
-                    
+
                     if not ya_existe_hoy:
                         nueva_cotizacion = CotizacionDolar(
                             valor=valor_venta,
