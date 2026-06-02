@@ -92,7 +92,26 @@ class RepositorioMoneda:
         with self.db.transaccion() as conn:
             result = conn.execute(text("SELECT id, nombre FROM monedas WHERE id = :id"), {"id": id}).fetchone()
             return Moneda(id=result[0], nombre=result[1]) if result else None
+    def crear(self, entidad: Moneda) -> Moneda:
+        with self.db.transaccion() as conn:
+            conn.execute(
+                text("INSERT INTO monedas (id, nombre) VALUES (:id, :nombre)"),
+                {"id": entidad.id, "nombre": entidad.nombre}
+            )
+        return entidad
 
+    def actualizar(self, entidad: Moneda) -> Moneda:
+        with self.db.transaccion() as conn:
+            conn.execute(
+                text("UPDATE monedas SET nombre = :nombre WHERE id = :id"),
+                {"nombre": entidad.nombre, "id": entidad.id}
+            )
+        return entidad
+
+    def eliminar(self, id: int) -> bool:
+        with self.db.transaccion() as conn:
+            conn.execute(text("DELETE FROM monedas WHERE id = :id"), {"id": id})
+        return True
 
 class RepositorioTipoCotizacion:
     def __init__(self) -> None:
@@ -107,7 +126,26 @@ class RepositorioTipoCotizacion:
         with self.db.transaccion() as conn:
             result = conn.execute(text("SELECT id, nombre FROM tipos_cotizacion WHERE id = :id"), {"id": id}).fetchone()
             return TipoCotizacion(id=result[0], nombre=result[1]) if result else None
+    def crear(self, entidad: TipoCotizacion) -> TipoCotizacion:
+        with self.db.transaccion() as conn:
+            conn.execute(
+                text("INSERT INTO tipos_cotizacion (id, nombre) VALUES (:id, :nombre)"),
+                {"id": entidad.id, "nombre": entidad.nombre}
+            )
+        return entidad
 
+    def actualizar(self, entidad: TipoCotizacion) -> TipoCotizacion:
+        with self.db.transaccion() as conn:
+            conn.execute(
+                text("UPDATE tipos_cotizacion SET nombre = :nombre WHERE id = :id"),
+                {"nombre": entidad.nombre, "id": entidad.id}
+            )
+        return entidad
+
+    def eliminar(self, id: int) -> bool:
+        with self.db.transaccion() as conn:
+            conn.execute(text("DELETE FROM tipos_cotizacion WHERE id = :id"), {"id": id})
+        return True
 
 class RepositorioProducto:
     def __init__(self) -> None:

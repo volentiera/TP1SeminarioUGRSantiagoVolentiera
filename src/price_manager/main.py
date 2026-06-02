@@ -12,10 +12,12 @@ from price_manager.services.services import (
 )
 from price_manager.preload_data.preload_data import cargar_datos
 from price_manager.ui.console import InterfazConsola
+from price_manager.models.models import crear_tablas
 
 def main(import_default_data: bool = True) -> None:
   """Función principal que orquestra el inicio del sistema."""
 
+  crear_tablas()
   # 1. Instanciación de Repositorios (Capa de Datos)
   repos = {
     "categoria": RepositorioCategoria(),
@@ -47,7 +49,12 @@ def main(import_default_data: bool = True) -> None:
 
   # 3. Precarga de datos desde CSV si se solicita
   if import_default_data:
-    cargar_datos(servicios)
+    categorias_existentes = servicios["categoria"].listar_todos()
+    if not categorias_existentes:
+        cargar_datos(servicios)
+        print("✅ Datos iniciales cargados en la base de datos.")
+    else:
+        print("ℹ️ La base de datos ya contiene información. Omitiendo precarga.")
 
   # 4. Inicio de la Interfaz de Usuario
   ui = InterfazConsola(servicios)
