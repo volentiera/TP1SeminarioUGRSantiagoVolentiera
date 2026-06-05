@@ -1,11 +1,11 @@
 id,nombre,descripcion,precio_valor,moneda_id,fecha,cat_id,prov_id
-1,Core i7,CPU 12va Gen,350.0,2,2023-10-01,1,1
-2,Ryzen 5,CPU AMD,250.0,2,2023-10-01,1,2
-3,RTX 3060,GPU 12GB,400.0,2,2023-10-01,2,3
-4,RAM 16GB,DDR4 3200MHz,45000.0,1,2023-10-01,3,4
-5,SSD 1TB,NVMe M.2,65000.0,1,2023-10-01,4,9
-6,Fuente 650W,80 Plus Bronze,85000.0,1,2023-10-01,5,4
-7,Gabinete ATX,Vidrio Templado,55000.0,1,2023-10-01,6,5
-8,Mouse G203,RGB,25000.0,1,2023-10-01,7,7
-9,Monitor 24,IPS 144Hz,280000.0,1,2023-10-01,8,8
-10,Cooler CPU,Aire RGB,35000.0,1,2023-10-01,9,10
+1,Monitor Samsung,Monitor LED Gaming Full HD,220000.0,1,2023-10-01,1,1
+2,Mouse Gamer,Mouse inalámbrico gaming RGB,95000.0,1,2023-10-01,1,2
+3,Teclado Gaming,Teclado mecánico RGB,100000.0,1,2023-10-01,2,3
+4,Auricular Gamer,Auricular inalámbrico gaming,120000.0,1,2023-10-01,3,4
+5,SSD Interno,Disco sólido SATA III,280000.0,1,2023-10-01,4,9
+6,Pendrive,USB 3.2 128GB,45000.0,1,2023-10-01,5,4
+7,Parlante Bluetooth,Parlante portátil BT,260000.0,1,2023-10-01,6,5
+8,Webcam,Cámara Full HD 1080p,150000.0,1,2023-10-01,7,7
+9,Router Wifi,Router dual band,80000.0,1,2023-10-01,8,8
+10,Smartwatch,Reloj inteligente,50000.0,1,2023-10-01,9,10
