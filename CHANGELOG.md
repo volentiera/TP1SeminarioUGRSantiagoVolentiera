@@ -151,3 +151,10 @@
 ### Añadido
 #### Inicialización Sprint 3 (Ejercicio 01)
 - Creación y cambio a la rama `Sprint_3` desde `Sprint_2`.
+
+## [2026-06-07]
+
+### Añadido
+#### Carga de datos SQL (Ejercicio 02)
+- Implementación de `cargar_datos_sql()` en `preload_data.py`.
+- Función que lee un archivo `.sql` y ejecuta sus sentencias usando `ConexionDB`.

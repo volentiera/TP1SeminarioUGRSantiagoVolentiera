@@ -1,7 +1,8 @@
-
 import csv
 import datetime
 from typing import Any, List, Dict
+from sqlalchemy import text
+from price_manager.database.connection import ConexionDB
 
 from price_manager.entities.entities import (
   Categoria, Proveedor, Moneda, TipoCotizacion, Precio, Producto
@@ -60,3 +61,26 @@ def cargar_datos(servicios: Dict[str, Any]) -> None:
     )
     try: servicios["producto"].crear(prod)
     except ValueError: pass
+
+def cargar_datos_sql(db: ConexionDB, nombre_archivo: str) -> None:
+    """
+    Lee un archivo .sql y ejecuta sus sentencias en la base de datos usando
+    el manejador de transacciones propio (ConexionDB).
+    """
+    ruta = f"price_manager/migrations/sql/{nombre_archivo}"
+
+    try:
+        with open(ruta, mode='r', encoding='utf-8') as f:
+            consultas_sql = f.read()
+
+        with db.transaccion() as connection:
+            sentencias = [s.strip() for s in consultas_sql.split(';') if s.strip()]
+            for sentencia in sentencias:
+                connection.execute(text(sentencia))
+
+        print(f"Éxito: Archivo SQL '{nombre_archivo}' ejecutado correctamente.")
+
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo SQL en la ruta: {ruta}")
+    except Exception as e:
+        print(f"Error inesperado al ejecutar {ruta}: {e}")
