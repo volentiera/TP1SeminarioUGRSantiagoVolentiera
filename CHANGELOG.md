@@ -177,3 +177,11 @@
 - Implementación de `generar_alertas_csv()` en `alertas.py`.
 - Comparación de precio interno (DB) vs precio web (JSON del scraper).
 - Generación de archivo CSV con alertas para diferencias superiores al umbral ingresado por el usuario.
+
+## [2026-06-10]
+
+### Añadido
+#### Reporte Excel (Ejercicio 05)
+- Implementación de `generar_reporte_excel()` en `reporte_excel.py`.
+- Reporte con columnas: Producto, Precio interno, Precio web, Diferencia, Fecha de extracción.
+- Uso de `pandas` para generar el archivo `.xlsx`.
