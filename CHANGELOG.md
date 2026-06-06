@@ -169,3 +169,11 @@
 - Creación de `settings.py` con configuración de Scrapy.
 - Implementación de `run_scraper.py` con `requests` y `BeautifulSoup` como solución funcional en Colab.
 - Mapeo de productos internos a categorías reales de Star Computación via `CATEGORIA_MAP`.
+
+## [2026-06-09]
+
+### Añadido
+#### Alertas de precios (Ejercicio 04)
+- Implementación de `generar_alertas_csv()` en `alertas.py`.
+- Comparación de precio interno (DB) vs precio web (JSON del scraper).
+- Generación de archivo CSV con alertas para diferencias superiores al umbral ingresado por el usuario.
