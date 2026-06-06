@@ -158,3 +158,14 @@
 #### Carga de datos SQL (Ejercicio 02)
 - Implementación de `cargar_datos_sql()` en `preload_data.py`.
 - Función que lee un archivo `.sql` y ejecuta sus sentencias usando `ConexionDB`.
+
+## [2026-06-08]
+
+### Añadido
+#### Scraper de Star Computación (Ejercicio 03)
+- Implementación de `StarComputacionSpider` con Scrapy navegando por categorías reales del sitio.
+- Creación de `items.py` con `ProductoWebItem` usando Loaders, `MapCompose` y `TakeFirst`.
+- Creación de `pipelines.py` con `PriceManagerPipeline` para limpiar precios y normalizar URLs.
+- Creación de `settings.py` con configuración de Scrapy.
+- Implementación de `run_scraper.py` con `requests` y `BeautifulSoup` como solución funcional en Colab.
+- Mapeo de productos internos a categorías reales de Star Computación via `CATEGORIA_MAP`.
