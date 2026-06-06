@@ -195,3 +195,13 @@
 - Registro de acción, fecha y resultado de cada operación auditada.
 - Implementación de `obtener_historial_auditoria()` para consulta de registros.
 - Aplicación del decorador en `_menu_scraping_alertas()` y `_menu_reporte_excel()`.
+
+## [2026-06-12]
+
+### Añadido
+#### Menú Sprint 3 (Ejercicio 07)
+- Incorporación de opciones 7, 8 y 9 al menú principal en `console.py`.
+- Opción 7: Ejecutar scraping y generar alertas CSV.
+- Opción 8: Generar reporte Excel de competencia.
+- Opción 9: Ver historial de auditoría.
+- Descarga automática de archivos generados al salir con opción 0.
