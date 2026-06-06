@@ -185,3 +185,13 @@
 - Implementación de `generar_reporte_excel()` en `reporte_excel.py`.
 - Reporte con columnas: Producto, Precio interno, Precio web, Diferencia, Fecha de extracción.
 - Uso de `pandas` para generar el archivo `.xlsx`.
+
+## [2026-06-11]
+
+### Añadido
+#### Auditoría del sistema (Ejercicio 06)
+- Implementación del decorador `@auditar` en `auditoria.py`.
+- Creación automática de la tabla `auditoria` en la base de datos.
+- Registro de acción, fecha y resultado de cada operación auditada.
+- Implementación de `obtener_historial_auditoria()` para consulta de registros.
+- Aplicación del decorador en `_menu_scraping_alertas()` y `_menu_reporte_excel()`.
