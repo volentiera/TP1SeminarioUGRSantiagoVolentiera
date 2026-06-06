@@ -57,4 +57,30 @@ El proyecto utiliza una estructura de paquetes dentro de la carpeta `src`. Sigue
 > **Nota:** La primera vez que se ejecute el sistema, se creará automáticamente la base de datos `price_manager.db` y sus tablas correspondientes, además de precargar los datos iniciales necesarios para su funcionamiento.
 
 ## Autores
-* Grupo 13 - Santiago Volentiera
+* Grupo 13 - Santiago Volentiera# Price Manager - Sprint 3
+
+## Sprint actual
+Sprint 3 - Web Scraping y comparación de precios con la competencia.
+
+## Objetivo
+Aplicar los conocimientos de programación orientada a objetos y
+persistencia de datos, incorporando la obtención de datos desde la web
+(scraping) para comparar los precios internos con los de la competencia
+(Star Computación) y generar alertas y reportes.
+
+## Introducción y contexto
+Una empresa distribuidora de productos electrónicos necesita competir
+con los precios del mercado. En este tercer sprint se obtienen los
+precios de la competencia mediante scraping, se comparan con los precios
+internos almacenados en la base de datos relacional, y se generan alertas
+(CSV) y reportes (Excel) para la toma de decisiones. El sistema registra
+además una auditoría de cada operación realizada.
+
+## Funcionalidades principales
+- Gestión de inventario, stock y entidades (CRUD completo).
+- Cotización del dólar en tiempo real (DolarAPI).
+- Reporte bimonetario y exportación a CSV.
+- Scraping de precios de la competencia con Scrapy.
+- Generación de alertas por diferencia de precios.
+- Reporte Excel comparativo.
+- Auditoría de operaciones del sistema.
