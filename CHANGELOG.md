@@ -145,3 +145,9 @@
 - Integración de opción interactiva para gatillar la descarga de cotizaciones desde la API.
 - Implementación de lógica de conversión bimonetaria en tiempo real (ARS/USD) según la cotización histórica más reciente de la base de datos.
 - Desarrollo de la función de exportación a CSV iterando sobre todos los productos y calculando equivalencias cruzadas contra todos los tipos de dólar registrados.
+
+## [2026-06-06]
+
+### Añadido
+#### Inicialización Sprint 3 (Ejercicio 01)
+- Creación y cambio a la rama `Sprint_3` desde `Sprint_2`.
