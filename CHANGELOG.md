@@ -81,10 +81,13 @@
 - Implementación de `StarComputacionSpider` con Scrapy navegando por categorías reales del sitio.
 - Creación de `items.py` con `ProductoWebItem` usando Loaders, `MapCompose` y `TakeFirst`.
 - Creación de `pipelines.py` con `PriceManagerPipeline` para limpiar precios y normalizar URLs.
-- Creación de `settings.py` con configuración de Scrapy.
+- Creación de `settings.py` con configuración de Scrapy vanilla (sin dependencias externas adicionales).
 - Implementación de `run_scraper.py` con `CrawlerProcess` que ejecuta el spider real de Scrapy.
-- Integración de `scrapy-impersonate` para sortear el filtrado TLS (WAF) que devolvía 403 a las requests del cliente Scrapy por defecto.
 - Mapeo de productos internos a categorías reales de Star Computación via `CATEGORIA_MAP`.
+
+### Corregido
+- Selector de descripción corregido de `.desc_general::text` a `#contenido_desc::text`: el texto del producto está dentro de un div anidado con tags `<br>`, por lo que el selector anterior no capturaba ningún contenido.
+- Eliminada dependencia de `scrapy-impersonate`: el 403 era causado por rate limiting y no por fingerprint TLS. Se reemplazó por `DOWNLOAD_DELAY = 2`, `CONCURRENT_REQUESTS = 1` y `RANDOMIZE_DOWNLOAD_DELAY = True` para respetar al servidor.
 
 ## [Ejercicio 02] - 2026-06-07
 

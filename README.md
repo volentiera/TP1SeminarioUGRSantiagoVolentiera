@@ -64,12 +64,9 @@ El trabajo se basa en lo construido en los sprints anteriores:
 - **Scraping con Scrapy:** el spider `StarComputacionSpider` navega por
   las categorías reales del sitio mediante un `CATEGORIA_MAP` y
   estructura los datos extraídos con Loaders e Items.
-- **Bypass del WAF mediante `scrapy-impersonate`:** el sitio devuelve
-  `HTTP 403` a las requests del cliente Scrapy por defecto debido a
-  filtrado por fingerprint TLS. Se integró `scrapy-impersonate`
-  (`DOWNLOAD_HANDLERS` + `impersonate: chrome131` en los Requests) para
-  imitar el handshake TLS de Chrome y poder consumir el sitio sin
-  recurrir a librerías ajenas al ecosistema Scrapy.
+- **Rate limiting:** se configura `DOWNLOAD_DELAY = 2`,
+  `CONCURRENT_REQUESTS = 1` y `RANDOMIZE_DOWNLOAD_DELAY = True` para
+  evitar bloqueos por IP al consumir el sitio.
 
 ## Cómo ejecutar
 1. Ejecutar el notebook `03_Price_Manager_Grupo_13.ipynb` desde Colab.

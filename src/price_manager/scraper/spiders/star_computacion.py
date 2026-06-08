@@ -15,7 +15,6 @@ CATEGORIA_MAP = {
     'Smartwatch':         'prods/electronica-2/smartwatch-42/',
 }
 BASE_URL = 'https://www.starcomputacion.com.ar'
-PERFIL_IMPERSONATE = 'chrome131'
 
 
 class StarComputacionSpider(scrapy.Spider):
@@ -38,12 +37,15 @@ class StarComputacionSpider(scrapy.Spider):
                 meta={
                     'producto_id': prod_id,
                     'nombre_buscado': nombre,
-                    'impersonate': PERFIL_IMPERSONATE,
                 })
 
     def parse(self, response):
         prod_id = response.meta['producto_id']
         nombre = response.meta['nombre_buscado']
+        self.logger.info(
+            f"[{nombre}] status={response.status} url={response.url} "
+            f"size={len(response.body)}b"
+        )
         tarjetas = response.css('a.product')
         self.logger.info(f"'{nombre}': {len(tarjetas)} resultados.")
         for tarjeta in tarjetas[:10]:
@@ -58,10 +60,7 @@ class StarComputacionSpider(scrapy.Spider):
                 yield response.follow(
                     href,
                     callback=self.parse_detalle,
-                    meta={
-                        'datos': datos,
-                        'impersonate': PERFIL_IMPERSONATE,
-                    })
+                    meta={'datos': datos})
 
     def parse_detalle(self, response):
         datos = response.meta['datos']
@@ -74,8 +73,8 @@ class StarComputacionSpider(scrapy.Spider):
         loader.add_value(
             'url_img',
             f"{BASE_URL}{url_img}" if url_img else datos['url_img_tarjeta'])
-        loader.add_css('descripcion', '.desc_general::text')
-        if not response.css('.desc_general').get():
+        loader.add_css('descripcion', '#contenido_desc::text')
+        if not response.css('#contenido_desc').get():
             loader.add_value('descripcion', datos['descripcion_corta'])
         formas = []
         for fila in response.css('#prices_table tr'):
