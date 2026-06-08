@@ -1,3 +1,10 @@
+## [Ejercicio 05] - 2026-06-10
+
+### Añadido
+- Implementación de `generar_reporte_excel()` en `reporte_excel.py`.
+- Reporte con columnas: Producto, Precio interno, Precio web, Diferencia, Fecha de extracción.
+- Uso de `pandas` para generar el archivo `.xlsx`.
+
 ## [Ejercicio 04] - 2026-06-09
 
 ### Añadido
