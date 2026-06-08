@@ -1,3 +1,5 @@
+# Changelog
+
 ## [Ejercicio 07] - 2026-06-12
 
 ### Añadido
@@ -52,7 +54,6 @@
 ### Añadido
 - Creación y cambio a la rama `Sprint_3` desde `Sprint_2`.
 
-# Changelog
 
 ## [2026-04-21]
 
@@ -199,63 +200,3 @@
 - Integración de opción interactiva para gatillar la descarga de cotizaciones desde la API.
 - Implementación de lógica de conversión bimonetaria en tiempo real (ARS/USD) según la cotización histórica más reciente de la base de datos.
 - Desarrollo de la función de exportación a CSV iterando sobre todos los productos y calculando equivalencias cruzadas contra todos los tipos de dólar registrados.
-
-## [2026-06-06]
-
-### Añadido
-#### Inicialización Sprint 3 (Ejercicio 01)
-- Creación y cambio a la rama `Sprint_3` desde `Sprint_2`.
-
-## [2026-06-07]
-
-### Añadido
-#### Carga de datos SQL (Ejercicio 02)
-- Implementación de `cargar_datos_sql()` en `preload_data.py`.
-- Función que lee un archivo `.sql` y ejecuta sus sentencias usando `ConexionDB`.
-
-## [2026-06-08]
-
-### Añadido
-#### Scraper de Star Computación (Ejercicio 03)
-- Implementación de `StarComputacionSpider` con Scrapy navegando por categorías reales del sitio.
-- Creación de `items.py` con `ProductoWebItem` usando Loaders, `MapCompose` y `TakeFirst`.
-- Creación de `pipelines.py` con `PriceManagerPipeline` para limpiar precios y normalizar URLs.
-- Creación de `settings.py` con configuración de Scrapy.
-- Implementación de `run_scraper.py` con `requests` y `BeautifulSoup` como solución funcional en Colab.
-- Mapeo de productos internos a categorías reales de Star Computación via `CATEGORIA_MAP`.
-
-## [2026-06-09]
-
-### Añadido
-#### Alertas de precios (Ejercicio 04)
-- Implementación de `generar_alertas_csv()` en `alertas.py`.
-- Comparación de precio interno (DB) vs precio web (JSON del scraper).
-- Generación de archivo CSV con alertas para diferencias superiores al umbral ingresado por el usuario.
-
-## [2026-06-10]
-
-### Añadido
-#### Reporte Excel (Ejercicio 05)
-- Implementación de `generar_reporte_excel()` en `reporte_excel.py`.
-- Reporte con columnas: Producto, Precio interno, Precio web, Diferencia, Fecha de extracción.
-- Uso de `pandas` para generar el archivo `.xlsx`.
-
-## [2026-06-11]
-
-### Añadido
-#### Auditoría del sistema (Ejercicio 06)
-- Implementación del decorador `@auditar` en `auditoria.py`.
-- Creación automática de la tabla `auditoria` en la base de datos.
-- Registro de acción, fecha y resultado de cada operación auditada.
-- Implementación de `obtener_historial_auditoria()` para consulta de registros.
-- Aplicación del decorador en `_menu_scraping_alertas()` y `_menu_reporte_excel()`.
-
-## [2026-06-12]
-
-### Añadido
-#### Menú Sprint 3 (Ejercicio 07)
-- Incorporación de opciones 7, 8 y 9 al menú principal en `console.py`.
-- Opción 7: Ejecutar scraping y generar alertas CSV.
-- Opción 8: Generar reporte Excel de competencia.
-- Opción 9: Ver historial de auditoría.
-- Descarga automática de archivos generados al salir con opción 0.
