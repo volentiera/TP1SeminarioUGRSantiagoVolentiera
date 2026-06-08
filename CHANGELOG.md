@@ -1,3 +1,9 @@
+## [Ejercicio 02] - 2026-06-07
+
+### Añadido
+- Implementación de `cargar_datos_sql()` en `preload_data.py`.
+- Función que lee un archivo `.sql` y ejecuta sus sentencias usando `ConexionDB`.
+
 ## [Ejercicio 01] - 2026-06-06
 
 ### Añadido
