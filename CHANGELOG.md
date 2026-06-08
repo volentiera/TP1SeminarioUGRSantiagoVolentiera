@@ -1,3 +1,12 @@
+## [Ejercicio 06] - 2026-06-11
+
+### Añadido
+- Implementación del decorador `@auditar` en `auditoria.py`.
+- Creación automática de la tabla `auditoria` en la base de datos.
+- Registro de acción, fecha y resultado de cada operación auditada.
+- Implementación de `obtener_historial_auditoria()` para consulta de registros.
+- Aplicación del decorador en `_menu_scraping_alertas()` y `_menu_reporte_excel()`.
+
 ## [Ejercicio 05] - 2026-06-10
 
 ### Añadido

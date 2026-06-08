@@ -19,7 +19,7 @@ def auditar(accion: str):
                         detalles TEXT
                     )
                 """))
-            
+
             # Ejecutamos la función original
             try:
                 resultado = func(*args, **kwargs)
@@ -35,7 +35,7 @@ def auditar(accion: str):
                     conn.execute(text(
                         "INSERT INTO auditoria (accion, fecha, detalles) VALUES (:a, :f, :d)"
                     ), {"a": accion, "f": fecha, "d": detalles})
-            
+
             return resultado
         return wrapper
     return decorator
@@ -49,7 +49,7 @@ def obtener_historial_auditoria():
             # Validamos si la tabla existe primero
             res = conn.execute(text("SELECT name FROM sqlite_master WHERE type='table' AND name='auditoria'")).fetchone()
             if not res: return []
-            
+
             resultado = conn.execute(text("SELECT accion, fecha, detalles FROM auditoria ORDER BY id DESC"))
             historial = [{"accion": r[0], "fecha": r[1], "detalles": r[2]} for r in resultado]
     except Exception as e:
