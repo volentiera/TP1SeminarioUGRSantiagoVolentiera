@@ -1,13 +1,14 @@
 import os
 import datetime
 import requests
-from typing import List, Optional, Any
+from typing import List, Any
 from dotenv import load_dotenv
 
 from price_manager.entities.entities import Stock, CotizacionDolar
 
 # Cargamos las variables de entorno desde el archivo .env
 load_dotenv()
+
 
 class ServicioGenerico:
     def __init__(self, repositorio: Any) -> None:
@@ -67,6 +68,34 @@ class ServicioStock:
         stock = self.repo_stock.leer_por_producto(producto_id)
         return stock.cantidad if stock else 0
 
+    def crear(self, stock: Stock) -> Stock:
+        """Crea un nuevo registro de stock para un producto existente."""
+        self.srv_producto.obtener(stock.producto_id)
+        if self.repo_stock.leer_por_producto(stock.producto_id) is not None:
+            raise ValueError(
+                f"Ya existe stock para el producto {stock.producto_id}"
+            )
+        return self.repo_stock.crear(stock)
+
+    def listar_todos(self) -> List[Stock]:
+        return self.repo_stock.leer_todos()
+
+    def actualizar(self, stock: Stock) -> Stock:
+        """Setea la cantidad del stock al valor indicado."""
+        self.srv_producto.obtener(stock.producto_id)
+        if self.repo_stock.leer_por_producto(stock.producto_id) is None:
+            raise ValueError(
+                f"No existe stock para el producto {stock.producto_id}"
+            )
+        return self.repo_stock.actualizar(stock)
+
+    def eliminar(self, producto_id: int) -> bool:
+        if self.repo_stock.leer_por_producto(producto_id) is None:
+            raise ValueError(
+                f"No existe stock para el producto {producto_id}"
+            )
+        return self.repo_stock.eliminar(producto_id)
+
 
 class ServicioCotizacionDolar:
     def __init__(self, repo_cotizacion: Any, srv_tipo_cotizacion: Any) -> None:
@@ -80,6 +109,19 @@ class ServicioCotizacionDolar:
     def obtener_historico(self, tipo_id: int) -> List[CotizacionDolar]:
         self.srv_tipo_cotizacion.obtener(tipo_id)
         return self.repo_cotizacion.leer_historico_por_tipo(tipo_id)
+
+    def listar_todos(self) -> List[CotizacionDolar]:
+        return self.repo_cotizacion.leer_todos()
+
+    def actualizar(self, cotizacion: CotizacionDolar) -> CotizacionDolar:
+        """Actualiza el valor de la cotizacion identificada por (tipo_id, fecha)."""
+        self.srv_tipo_cotizacion.obtener(cotizacion.tipo.id)
+        return self.repo_cotizacion.actualizar(cotizacion)
+
+    def eliminar(self, tipo_id: int, fecha: datetime.date) -> bool:
+        """Elimina la cotizacion identificada por (tipo_id, fecha)."""
+        self.srv_tipo_cotizacion.obtener(tipo_id)
+        return self.repo_cotizacion.eliminar(tipo_id, fecha)
 
     def obtener_cotizaciones(self) -> None:
         """Busca cotizaciones en la API, las descarga y registra en la BD."""
