@@ -1,3 +1,10 @@
+## [Ejercicio 04] - 2026-06-09
+
+### Añadido
+- Implementación de `generar_alertas_csv()` en `alertas.py`.
+- Comparación de precio interno (DB) vs precio web (JSON del scraper).
+- Generación de archivo CSV con alertas para diferencias superiores al umbral ingresado por el usuario.
+
 ## [Ejercicio 03] - 2026-06-08
 
 ### Añadido
