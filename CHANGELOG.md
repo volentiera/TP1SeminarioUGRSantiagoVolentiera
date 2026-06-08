@@ -1,3 +1,8 @@
+## [Ejercicio 01] - 2026-06-06
+
+### Añadido
+- Creación y cambio a la rama `Sprint_3` desde `Sprint_2`.
+
 # Changelog
 
 ## [2026-04-21]
