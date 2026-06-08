@@ -1,5 +1,48 @@
 # Changelog
 
+## [2026-06-18]
+
+### Modificado
+- Actualización de `migrations/sql/productos.sql` para que los datos coincidan con los del archivo CSV actual.
+- Los productos ahora son: Monitor Samsung, Mouse Gamer, Teclado Gaming, Auricular Gamer, SSD Interno, Pendrive, Parlante Bluetooth, Webcam, Router Wifi y Smartwatch.
+- Esto resuelve el desajuste entre los datos semilla SQL y el spider de Scrapy, que usa esos nombres para mapear las URLs de scraping.
+
+## [2026-06-17]
+
+### Corregido
+- Fix en `database/connection.py`: la detección del entorno Colab reemplaza `os.path.exists('/content')` por `import google.colab` dentro de un bloque `try/except`.
+- El método anterior causaba que en Windows (donde `C:\content` existe por WSL u otros programas) la base de datos se creara en la ruta de Colab en lugar de la ruta local, impidiendo la carga de datos.
+
+## [2026-06-16]
+
+### Corregido
+- Fix de rutas hardcodeadas de Colab en múltiples archivos para que el proyecto funcione tanto en local como en Google Colab.
+- `console.py`: el `cwd` del subprocess del scraper y la lista `ARCHIVOS` de descarga ahora usan rutas dinámicas calculadas desde `__file__`.
+- `services/alertas.py`: `ruta_json` y `ruta_csv` ahora se calculan con `pathlib` relativas al paquete.
+- `services/reporte_excel.py`: `RUTA_JSON` y `RUTA_EXCEL` ahora se calculan con `pathlib` relativas al paquete.
+- `scraper/run_scraper.py`: `sys.path` y `RUTA_SALIDA` ahora se calculan dinámicamente con `pathlib`.
+
+## [2026-06-15]
+
+### Corregido
+- Fix en `console.py`: el import `from google.colab import files` se reemplaza por un bloque `try/except ImportError`.
+- Se introduce la variable `_EN_COLAB` para distinguir el entorno en tiempo de ejecución.
+- El método `_descargar_archivos` ahora imprime la ruta local del archivo cuando se ejecuta fuera de Colab, en lugar de intentar invocar `files.download()` y crashear.
+
+## [2026-06-14]
+
+### Corregido
+- Fix en `console.py` (CRUD de Productos): al listar productos, si `p.proveedor`, `p.categoria` o `p.precio.moneda` son `None` (referencia huérfana en BD), se muestra `N/A` en lugar de lanzar `AttributeError`.
+
+## [2026-06-13]
+
+### Añadido
+- CRUD completo de `Stock` en `repositories.py`: métodos `leer_todos` y `eliminar`.
+- CRUD completo de `Stock` en `services.py`: métodos `crear`, `listar_todos`, `actualizar` y `eliminar` con validaciones de existencia.
+- CRUD completo de `CotizacionDolar` en `repositories.py`: métodos `leer_todos`, `actualizar` y `eliminar`.
+- CRUD completo de `CotizacionDolar` en `services.py`: métodos `listar_todos`, `actualizar` y `eliminar`.
+- Submenús de gestión en `console.py`: Gestionar Productos, Gestionar Stock y Gestionar Cotizaciones Dólar (opciones 5, 6 y 7 del menú CRUD).
+
 ## [Ejercicio 07] - 2026-06-12
 
 ### Añadido
