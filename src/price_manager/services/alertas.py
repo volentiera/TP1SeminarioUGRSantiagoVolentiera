@@ -1,13 +1,16 @@
 import json
 import csv
 import os
+import pathlib
 from datetime import datetime
 from price_manager.database.connection import ConexionDB
 from sqlalchemy import text
 
+_CSV_DIR = pathlib.Path(__file__).resolve().parent.parent / "migrations" / "csv"
+
 def generar_alertas_csv(umbral_diferencia: float) -> str:
-    ruta_json = '/content/price_manager/src/price_manager/migrations/csv/resultados_scraper.json'
-    ruta_csv = '/content/price_manager/src/price_manager/migrations/csv/alertas_precios.csv'
+    ruta_json = str(_CSV_DIR / "resultados_scraper.json")
+    ruta_csv = str(_CSV_DIR / "alertas_precios.csv")
 
     if not os.path.exists(ruta_json):
         print("❌ Error: No se encontró el archivo JSON.")

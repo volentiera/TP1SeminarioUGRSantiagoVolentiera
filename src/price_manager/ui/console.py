@@ -1,13 +1,23 @@
 import csv
+import datetime
 import os
+import pathlib
 import subprocess
 import sys
 import time
 from typing import Any, Dict
-from google.colab import files
+
+try:
+    from google.colab import files as _colab_files
+    _EN_COLAB = True
+except ImportError:
+    _EN_COLAB = False
+
+_SRC_DIR = str(pathlib.Path(__file__).resolve().parent.parent.parent)
 
 from price_manager.entities.entities import (
-    Categoria, Proveedor, Moneda, TipoCotizacion
+    Categoria, Proveedor, Moneda, TipoCotizacion,
+    Producto, Precio, Stock, CotizacionDolar
 )
 from price_manager.services.alertas import generar_alertas_csv
 from price_manager.services.reporte_excel import generar_reporte_excel
@@ -22,9 +32,10 @@ class InterfazConsola:
 
     def _descargar_archivos(self) -> None:
         """Descarga los archivos generados al salir del programa."""
+        _csv_dir = os.path.join(_SRC_DIR, "price_manager", "migrations", "csv")
         ARCHIVOS = [
-            '/content/price_manager/src/price_manager/migrations/csv/alertas_precios.csv',
-            '/content/price_manager/src/price_manager/migrations/csv/reporte_precios.xlsx',
+            os.path.join(_csv_dir, "alertas_precios.csv"),
+            os.path.join(_csv_dir, "reporte_precios.xlsx"),
         ]
         print("\n--- DESCARGA DE ARCHIVOS GENERADOS ---")
         encontrados = [r for r in ARCHIVOS if os.path.exists(r)]
@@ -34,13 +45,19 @@ class InterfazConsola:
             return
         for ruta in encontrados:
             nombre = os.path.basename(ruta)
-            print(f"⬇️ Descargando {nombre}...")
-            try:
-                files.download(ruta)
-                time.sleep(1)
-            except Exception as e:
-                print(f"❌ Error al descargar {nombre}: {e}")
-        print("✅ Descarga(s) iniciada(s). Revisá tu navegador.")
+            if _EN_COLAB:
+                print(f"Descargando {nombre}...")
+                try:
+                    _colab_files.download(ruta)
+                    time.sleep(1)
+                except Exception as e:
+                    print(f"❌ Error al descargar {nombre}: {e}")
+            else:
+                print(f"Archivo disponible en: {ruta}")
+        if _EN_COLAB:
+            print("✅ Descarga(s) iniciada(s). Revisá tu navegador.")
+        else:
+            print("✅ Archivos listos. Copiá las rutas de arriba para acceder a ellos.")
 
     def iniciar(self) -> None:
         while True:
@@ -95,7 +112,7 @@ class InterfazConsola:
         print("\n--- EJECUTANDO SCRAPER ---")
         resultado = subprocess.run(
             [sys.executable, "price_manager/scraper/run_scraper.py"],
-            cwd="/content/price_manager/src",
+            cwd=_SRC_DIR,
             capture_output=True, text=True
         )
         print(resultado.stdout)
@@ -279,6 +296,8 @@ class InterfazConsola:
         except Exception as e:
             print(f"❌ Error al exportar el archivo: {e}")
 
+    # --- CRUD ---
+
     def _menu_crud_principal(self) -> None:
         while True:
             print("\n--- Gestionar Entidades (CRUD) ---")
@@ -286,7 +305,10 @@ class InterfazConsola:
             print("2. Gestionar Proveedores")
             print("3. Gestionar Monedas")
             print("4. Gestionar Tipos de Cotización")
-            print("5. Volver al Menú Principal")
+            print("5. Gestionar Productos")
+            print("6. Gestionar Stock")
+            print("7. Gestionar Cotizaciones Dólar")
+            print("8. Volver al Menú Principal")
             opcion = input("Seleccione una opción: ")
 
             if opcion == '1':
@@ -300,6 +322,12 @@ class InterfazConsola:
                     "Tipo de Cotización", self.servicios['tipo_cotizacion'], TipoCotizacion
                 )
             elif opcion == '5':
+                self._menu_crud_producto()
+            elif opcion == '6':
+                self._menu_crud_stock()
+            elif opcion == '7':
+                self._menu_crud_cotizacion_dolar()
+            elif opcion == '8':
                 break
             else:
                 print("Opción inválida.")
@@ -363,6 +391,207 @@ class InterfazConsola:
                     id_val = int(input("Ingrese el ID del registro a eliminar: "))
                     servicio.eliminar(id_val)
                     print(f"✅ {nombre_entidad} eliminada con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al eliminar: {e}")
+            elif opcion == '5':
+                break
+            else:
+                print("Opción inválida.")
+
+    # --- CRUD especializados ---
+
+    def _pedir_producto_completo(self, id_existente: Any = None) -> Producto:
+        """Pide al usuario todos los datos para construir un Producto."""
+        id_val = id_existente if id_existente is not None else int(
+            input("Ingrese ID del producto: ")
+        )
+        nombre = input("Ingrese nombre: ")
+        descripcion = input("Ingrese descripción: ")
+
+        print("\nMonedas disponibles:")
+        for m in self.servicios['moneda'].listar_todos():
+            print(f"  [{m.id}] {m.nombre}")
+        moneda_id = int(input("Ingrese ID de moneda: "))
+        moneda = self.servicios['moneda'].obtener(moneda_id)
+
+        valor = float(input("Ingrese valor del precio: "))
+        precio = Precio(valor=valor, moneda=moneda, fecha=datetime.date.today())
+
+        print("\nCategorías disponibles:")
+        for c in self.servicios['categoria'].listar_todos():
+            print(f"  [{c.id}] {c.nombre}")
+        categoria_id = int(input("Ingrese ID de categoría: "))
+        categoria = self.servicios['categoria'].obtener(categoria_id)
+
+        print("\nProveedores disponibles:")
+        for p in self.servicios['proveedor'].listar_todos():
+            print(f"  [{p.id}] {p.nombre}")
+        proveedor_id = int(input("Ingrese ID de proveedor: "))
+        proveedor = self.servicios['proveedor'].obtener(proveedor_id)
+
+        return Producto(
+            id=id_val, nombre=nombre, descripcion=descripcion,
+            precio=precio, categoria=categoria, proveedor=proveedor
+        )
+
+    def _menu_crud_producto(self) -> None:
+        srv = self.servicios['producto']
+        while True:
+            print("\n--- Producto ---")
+            print("1. Crear")
+            print("2. Listar todos")
+            print("3. Actualizar")
+            print("4. Eliminar")
+            print("5. Volver")
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == '1':
+                try:
+                    producto = self._pedir_producto_completo()
+                    srv.crear(producto)
+                    print("✅ Producto creado con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al crear: {e}")
+            elif opcion == '2':
+                productos = srv.listar_todos()
+                if not productos:
+                    print("No hay registros de Producto.")
+                else:
+                    for p in productos:
+                        cat = p.categoria.nombre if p.categoria else "N/A"
+                        prov = p.proveedor.nombre if p.proveedor else "N/A"
+                        mon = p.precio.moneda.nombre if p.precio.moneda else "N/A"
+                        print(
+                            f"ID: {p.id} | {p.nombre} | "
+                            f"{p.precio.valor} {mon} | "
+                            f"Categoría: {cat} | "
+                            f"Proveedor: {prov}"
+                        )
+            elif opcion == '3':
+                try:
+                    id_val = int(input("Ingrese el ID del producto a actualizar: "))
+                    srv.obtener(id_val)
+                    producto = self._pedir_producto_completo(id_existente=id_val)
+                    srv.actualizar(producto)
+                    print("✅ Producto actualizado con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al actualizar: {e}")
+            elif opcion == '4':
+                try:
+                    id_val = int(input("Ingrese el ID del producto a eliminar: "))
+                    srv.eliminar(id_val)
+                    print("✅ Producto eliminado con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al eliminar: {e}")
+            elif opcion == '5':
+                break
+            else:
+                print("Opción inválida.")
+
+    def _menu_crud_stock(self) -> None:
+        srv = self.servicios['stock']
+        while True:
+            print("\n--- Stock ---")
+            print("1. Crear")
+            print("2. Listar todos")
+            print("3. Actualizar")
+            print("4. Eliminar")
+            print("5. Volver")
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == '1':
+                try:
+                    prod_id = int(input("Ingrese ID del producto: "))
+                    cantidad = int(input("Ingrese cantidad inicial: "))
+                    srv.crear(Stock(producto_id=prod_id, cantidad=cantidad))
+                    print("✅ Stock creado con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al crear: {e}")
+            elif opcion == '2':
+                stocks = srv.listar_todos()
+                if not stocks:
+                    print("No hay registros de Stock.")
+                else:
+                    for s in stocks:
+                        print(f"Producto ID: {s.producto_id} | Cantidad: {s.cantidad}")
+            elif opcion == '3':
+                try:
+                    prod_id = int(input("Ingrese ID del producto: "))
+                    cantidad = int(input("Ingrese nueva cantidad: "))
+                    srv.actualizar(Stock(producto_id=prod_id, cantidad=cantidad))
+                    print("✅ Stock actualizado con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al actualizar: {e}")
+            elif opcion == '4':
+                try:
+                    prod_id = int(input("Ingrese ID del producto: "))
+                    srv.eliminar(prod_id)
+                    print("✅ Stock eliminado con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al eliminar: {e}")
+            elif opcion == '5':
+                break
+            else:
+                print("Opción inválida.")
+
+    def _menu_crud_cotizacion_dolar(self) -> None:
+        srv = self.servicios['cotizacion_dolar']
+        srv_tipo = self.servicios['tipo_cotizacion']
+        while True:
+            print("\n--- Cotización Dólar ---")
+            print("1. Crear")
+            print("2. Listar todos")
+            print("3. Actualizar")
+            print("4. Eliminar")
+            print("5. Volver")
+            opcion = input("Seleccione una opción: ")
+
+            if opcion == '1':
+                try:
+                    print("\nTipos disponibles:")
+                    for t in srv_tipo.listar_todos():
+                        print(f"  [{t.id}] {t.nombre}")
+                    tipo_id = int(input("Ingrese ID del tipo: "))
+                    tipo = srv_tipo.obtener(tipo_id)
+                    valor = float(input("Ingrese valor: "))
+                    fecha_str = input("Ingrese fecha (YYYY-MM-DD): ")
+                    fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+                    cotizacion = CotizacionDolar(valor=valor, fecha=fecha, tipo=tipo)
+                    srv.registrar_cotizacion(cotizacion)
+                    print("✅ Cotización creada con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al crear: {e}")
+            elif opcion == '2':
+                cotizaciones = srv.listar_todos()
+                if not cotizaciones:
+                    print("No hay registros de Cotización.")
+                else:
+                    for c in cotizaciones:
+                        print(
+                            f"Tipo: {c.tipo.nombre} | "
+                            f"Fecha: {c.fecha} | Valor: ${c.valor}"
+                        )
+            elif opcion == '3':
+                try:
+                    tipo_id = int(input("Ingrese ID del tipo de la cotización: "))
+                    tipo = srv_tipo.obtener(tipo_id)
+                    fecha_str = input("Ingrese fecha de la cotización (YYYY-MM-DD): ")
+                    fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+                    nuevo_valor = float(input("Ingrese el nuevo valor: "))
+                    cotizacion = CotizacionDolar(
+                        valor=nuevo_valor, fecha=fecha, tipo=tipo
+                    )
+                    srv.actualizar(cotizacion)
+                    print("✅ Cotización actualizada con éxito.")
+                except Exception as e:
+                    print(f"❌ Error al actualizar: {e}")
+            elif opcion == '4':
+                try:
+                    tipo_id = int(input("Ingrese ID del tipo de la cotización: "))
+                    fecha_str = input("Ingrese fecha de la cotización (YYYY-MM-DD): ")
+                    fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%d').date()
+                    srv.eliminar(tipo_id, fecha)
+                    print("✅ Cotización eliminada con éxito.")
                 except Exception as e:
                     print(f"❌ Error al eliminar: {e}")
             elif opcion == '5':

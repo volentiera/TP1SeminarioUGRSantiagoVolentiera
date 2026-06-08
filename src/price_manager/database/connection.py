@@ -10,11 +10,15 @@ class ConexionDB:
 
     def __init__(self) -> None:
         # Detección automática del entorno
-        if 'google.colab' in sys.modules or os.path.exists('/content'):
-            # Estamos en Google Colab
+        try:
+            import google.colab  # noqa: F401
+            _en_colab = True
+        except ImportError:
+            _en_colab = False
+
+        if _en_colab:
             self.data_base_directory = '/content/base_de_datos/'
         else:
-            # Estamos en local (VS Code / Windows)
             self.data_base_directory = 'base_de_datos/'
             
         os.makedirs(self.data_base_directory, exist_ok=True)

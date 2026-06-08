@@ -7,6 +7,7 @@ from price_manager.entities.entities import (
     Precio, Producto, Stock, CotizacionDolar
 )
 
+
 class RepositorioCategoria:
     def __init__(self) -> None:
         self.db = ConexionDB()
@@ -92,6 +93,7 @@ class RepositorioMoneda:
         with self.db.transaccion() as conn:
             result = conn.execute(text("SELECT id, nombre FROM monedas WHERE id = :id"), {"id": id}).fetchone()
             return Moneda(id=result[0], nombre=result[1]) if result else None
+
     def crear(self, entidad: Moneda) -> Moneda:
         with self.db.transaccion() as conn:
             conn.execute(
@@ -113,6 +115,7 @@ class RepositorioMoneda:
             conn.execute(text("DELETE FROM monedas WHERE id = :id"), {"id": id})
         return True
 
+
 class RepositorioTipoCotizacion:
     def __init__(self) -> None:
         self.db = ConexionDB()
@@ -126,6 +129,7 @@ class RepositorioTipoCotizacion:
         with self.db.transaccion() as conn:
             result = conn.execute(text("SELECT id, nombre FROM tipos_cotizacion WHERE id = :id"), {"id": id}).fetchone()
             return TipoCotizacion(id=result[0], nombre=result[1]) if result else None
+
     def crear(self, entidad: TipoCotizacion) -> TipoCotizacion:
         with self.db.transaccion() as conn:
             conn.execute(
@@ -146,6 +150,7 @@ class RepositorioTipoCotizacion:
         with self.db.transaccion() as conn:
             conn.execute(text("DELETE FROM tipos_cotizacion WHERE id = :id"), {"id": id})
         return True
+
 
 class RepositorioProducto:
     def __init__(self) -> None:
@@ -180,9 +185,9 @@ class RepositorioProducto:
     def crear(self, entidad: Producto) -> Producto:
         with self.db.transaccion() as conn:
             conn.execute(
-                text("""INSERT INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id) 
+                text("""INSERT INTO productos (id, nombre, descripcion, precio_valor, moneda_id, fecha_precio, categoria_id, proveedor_id)
                         VALUES (:id, :nom, :desc, :pval, :mid, :fec, :cid, :pid)"""),
-                {"id": entidad.id, "nom": entidad.nombre, "desc": entidad.descripcion, "pval": entidad.precio.valor, 
+                {"id": entidad.id, "nom": entidad.nombre, "desc": entidad.descripcion, "pval": entidad.precio.valor,
                  "mid": entidad.precio.moneda.id, "fec": entidad.precio.fecha, "cid": entidad.categoria.id, "pid": entidad.proveedor.id}
             )
         return entidad
@@ -190,9 +195,9 @@ class RepositorioProducto:
     def actualizar(self, entidad: Producto) -> Producto:
         with self.db.transaccion() as conn:
             conn.execute(
-                text("""UPDATE productos SET nombre=:nom, descripcion=:desc, precio_valor=:pval, moneda_id=:mid, 
+                text("""UPDATE productos SET nombre=:nom, descripcion=:desc, precio_valor=:pval, moneda_id=:mid,
                         fecha_precio=:fec, categoria_id=:cid, proveedor_id=:pid WHERE id=:id"""),
-                {"id": entidad.id, "nom": entidad.nombre, "desc": entidad.descripcion, "pval": entidad.precio.valor, 
+                {"id": entidad.id, "nom": entidad.nombre, "desc": entidad.descripcion, "pval": entidad.precio.valor,
                  "mid": entidad.precio.moneda.id, "fec": entidad.precio.fecha, "cid": entidad.categoria.id, "pid": entidad.proveedor.id}
             )
         return entidad
@@ -207,6 +212,11 @@ class RepositorioStock:
     def __init__(self) -> None:
         self.db = ConexionDB()
 
+    def leer_todos(self) -> List[Stock]:
+        with self.db.transaccion() as conn:
+            result = conn.execute(text("SELECT producto_id, cantidad FROM stock"))
+            return [Stock(producto_id=row[0], cantidad=row[1]) for row in result]
+
     def leer_por_producto(self, producto_id: int) -> Optional[Stock]:
         with self.db.transaccion() as conn:
             result = conn.execute(text("SELECT cantidad FROM stock WHERE producto_id = :id"), {"id": producto_id}).fetchone()
@@ -214,21 +224,36 @@ class RepositorioStock:
 
     def crear(self, stock: Stock) -> Stock:
         with self.db.transaccion() as conn:
-            conn.execute(text("INSERT INTO stock (producto_id, cantidad) VALUES (:id, :cant)"), 
+            conn.execute(text("INSERT INTO stock (producto_id, cantidad) VALUES (:id, :cant)"),
                          {"id": stock.producto_id, "cant": stock.cantidad})
         return stock
 
     def actualizar(self, stock: Stock) -> Stock:
         with self.db.transaccion() as conn:
-            conn.execute(text("UPDATE stock SET cantidad = :cant WHERE producto_id = :id"), 
+            conn.execute(text("UPDATE stock SET cantidad = :cant WHERE producto_id = :id"),
                          {"cant": stock.cantidad, "id": stock.producto_id})
         return stock
+
+    def eliminar(self, producto_id: int) -> bool:
+        with self.db.transaccion() as conn:
+            conn.execute(text("DELETE FROM stock WHERE producto_id = :id"), {"id": producto_id})
+        return True
 
 
 class RepositorioCotizacionDolar:
     def __init__(self) -> None:
         self.db = ConexionDB()
         self.repo_tipo = RepositorioTipoCotizacion()
+
+    def leer_todos(self) -> List[CotizacionDolar]:
+        cotizaciones = []
+        with self.db.transaccion() as conn:
+            result = conn.execute(text("SELECT valor, fecha, tipo_id FROM cotizaciones_dolar ORDER BY fecha ASC, tipo_id ASC"))
+            for row in result:
+                tipo = self.repo_tipo.leer_por_id(row[2])
+                fecha_obj = datetime.datetime.strptime(row[1], '%Y-%m-%d').date() if isinstance(row[1], str) else row[1]
+                cotizaciones.append(CotizacionDolar(valor=row[0], fecha=fecha_obj, tipo=tipo))
+        return cotizaciones
 
     def leer_historico_por_tipo(self, tipo_id: int) -> List[CotizacionDolar]:
         cotizaciones = []
@@ -247,3 +272,21 @@ class RepositorioCotizacionDolar:
                 {"val": cotizacion.valor, "fec": cotizacion.fecha, "tid": cotizacion.tipo.id}
             )
         return cotizacion
+
+    def actualizar(self, cotizacion: CotizacionDolar) -> CotizacionDolar:
+        """Actualiza el valor de la cotizacion identificada por (tipo_id, fecha)."""
+        with self.db.transaccion() as conn:
+            conn.execute(
+                text("UPDATE cotizaciones_dolar SET valor = :val WHERE tipo_id = :tid AND fecha = :fec"),
+                {"val": cotizacion.valor, "tid": cotizacion.tipo.id, "fec": cotizacion.fecha}
+            )
+        return cotizacion
+
+    def eliminar(self, tipo_id: int, fecha: datetime.date) -> bool:
+        """Elimina la cotizacion identificada por (tipo_id, fecha)."""
+        with self.db.transaccion() as conn:
+            conn.execute(
+                text("DELETE FROM cotizaciones_dolar WHERE tipo_id = :tid AND fecha = :fec"),
+                {"tid": tipo_id, "fec": fecha}
+            )
+        return True

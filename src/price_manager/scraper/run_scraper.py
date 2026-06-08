@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, '/content/price_manager/src')
+import pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent.parent))
 
 from sqlalchemy import text
 from scrapy.crawler import CrawlerProcess
@@ -9,9 +10,9 @@ from price_manager.database.connection import ConexionDB
 from price_manager.scraper import settings as settings_scraper
 from price_manager.scraper.spiders.star_computacion import StarComputacionSpider
 
-RUTA_SALIDA = (
-    '/content/price_manager/src/price_manager'
-    '/migrations/csv/resultados_scraper.json'
+RUTA_SALIDA = str(
+    pathlib.Path(__file__).resolve().parent.parent
+    / "migrations" / "csv" / "resultados_scraper.json"
 )
 
 

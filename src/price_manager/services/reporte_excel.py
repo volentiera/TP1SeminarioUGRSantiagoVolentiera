@@ -1,19 +1,14 @@
 import pandas as pd
 import json
 import os
+import pathlib
 from datetime import datetime
 from price_manager.database.connection import ConexionDB
 from sqlalchemy import text
 
-# Rutas absolutas para evitar problemas con el directorio de trabajo en Colab
-RUTA_JSON = (
-    '/content/price_manager/src/price_manager'
-    '/migrations/csv/resultados_scraper.json'
-)
-RUTA_EXCEL = (
-    '/content/price_manager/src/price_manager'
-    '/migrations/csv/reporte_precios.xlsx'
-)
+_CSV_DIR = pathlib.Path(__file__).resolve().parent.parent / "migrations" / "csv"
+RUTA_JSON = str(_CSV_DIR / "resultados_scraper.json")
+RUTA_EXCEL = str(_CSV_DIR / "reporte_precios.xlsx")
 
 
 def generar_reporte_excel() -> str:
