@@ -113,7 +113,7 @@ class InterfazConsola:
         resultado = subprocess.run(
             [sys.executable, "price_manager/scraper/run_scraper.py"],
             cwd=_SRC_DIR,
-            capture_output=True, text=True
+            capture_output=True, text=True, encoding='utf-8'
         )
         print(resultado.stdout)
         if resultado.returncode != 0:
