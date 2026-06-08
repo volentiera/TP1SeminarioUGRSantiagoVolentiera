@@ -1,3 +1,12 @@
+## [Ejercicio 07] - 2026-06-12
+
+### Añadido
+- Incorporación de opciones 7, 8 y 9 al menú principal en `console.py`.
+- Opción 7: Ejecutar scraping y generar alertas CSV.
+- Opción 8: Generar reporte Excel de competencia.
+- Opción 9: Ver historial de auditoría.
+- Descarga automática de archivos generados al salir con opción 0.
+
 ## [Ejercicio 06] - 2026-06-11
 
 ### Añadido

@@ -1,12 +1,19 @@
 import csv
 import os
+import subprocess
+import sys
+import time
 from typing import Any, Dict
 from google.colab import files
 
-from price_manager.entities.entities import Categoria, Proveedor, Moneda, TipoCotizacion
+from price_manager.entities.entities import (
+    Categoria, Proveedor, Moneda, TipoCotizacion
+)
 from price_manager.services.alertas import generar_alertas_csv
 from price_manager.services.reporte_excel import generar_reporte_excel
-from price_manager.services.auditoria import auditar, obtener_historial_auditoria
+from price_manager.services.auditoria import (
+    auditar, obtener_historial_auditoria
+)
 
 
 class InterfazConsola:
@@ -19,10 +26,21 @@ class InterfazConsola:
             '/content/price_manager/src/price_manager/migrations/csv/alertas_precios.csv',
             '/content/price_manager/src/price_manager/migrations/csv/reporte_precios.xlsx',
         ]
-        for ruta in ARCHIVOS:
-            if os.path.exists(ruta):
-                print(f"⬇️ Descargando {os.path.basename(ruta)}...")
+        print("\n--- DESCARGA DE ARCHIVOS GENERADOS ---")
+        encontrados = [r for r in ARCHIVOS if os.path.exists(r)]
+        if not encontrados:
+            print("⚠️ No hay archivos generados para descargar.")
+            print("   Generá primero las alertas (opción 7) y el reporte Excel (opción 8).")
+            return
+        for ruta in encontrados:
+            nombre = os.path.basename(ruta)
+            print(f"⬇️ Descargando {nombre}...")
+            try:
                 files.download(ruta)
+                time.sleep(1)
+            except Exception as e:
+                print(f"❌ Error al descargar {nombre}: {e}")
+        print("✅ Descarga(s) iniciada(s). Revisá tu navegador.")
 
     def iniciar(self) -> None:
         while True:
@@ -39,30 +57,53 @@ class InterfazConsola:
             print("7. Ejecutar Scraping y Alertas")
             print("8. Generar Reporte Excel de Competencia")
             print("9. Ver Historial de Auditoría")
-            print("0. Salir")
+            print("0. Salir (descarga los archivos generados)")
 
             opcion = input("\nSeleccione una opción: ")
 
-            if opcion == "1": self._menu_productos()
-            elif opcion == "2": self._menu_stock()
-            elif opcion == "3": self._menu_maestros()
-            elif opcion == "4": self._menu_cotizaciones()
-            elif opcion == "5": self._menu_reportes()
-            elif opcion == "6": self._menu_crud_principal()
-            elif opcion == "7": self._menu_scraping_alertas()
-            elif opcion == "8": self._menu_reporte_excel()
-            elif opcion == "9": self._menu_auditoria()
+            if opcion == "1":
+                self._menu_productos()
+            elif opcion == "2":
+                self._menu_stock()
+            elif opcion == "3":
+                self._menu_maestros()
+            elif opcion == "4":
+                self._menu_cotizaciones()
+            elif opcion == "5":
+                self._menu_reportes()
+            elif opcion == "6":
+                self._menu_crud_principal()
+            elif opcion == "7":
+                self._menu_scraping_alertas()
+            elif opcion == "8":
+                self._menu_reporte_excel()
+            elif opcion == "9":
+                self._menu_auditoria()
             elif opcion == "0":
+                print("\n--- SALIENDO ---")
+                print("Al salir se descargarán los archivos generados en esta sesión")
+                print("(alertas_precios.csv y reporte_precios.xlsx).")
                 self._descargar_archivos()
                 break
-            else: print("❌ Opción no válida.")
+            else:
+                print("❌ Opción no válida.")
 
     # --- SPRINT 3 ---
 
     @auditar(accion="Scraping Web y Generación de Alertas")
     def _menu_scraping_alertas(self) -> None:
         print("\n--- EJECUTANDO SCRAPER ---")
-        os.system("python price_manager/scraper/run_scraper.py")
+        resultado = subprocess.run(
+            [sys.executable, "price_manager/scraper/run_scraper.py"],
+            cwd="/content/price_manager/src",
+            capture_output=True, text=True
+        )
+        print(resultado.stdout)
+        if resultado.returncode != 0:
+            print("--- ERRORES DEL SCRAPER ---")
+            print(resultado.stderr[-3000:])
+            input("\nPresione Enter para continuar...")
+            return
 
         try:
             print("\n--- GENERANDO ALERTAS CSV ---")
@@ -160,9 +201,12 @@ class InterfazConsola:
             print("0. Volver")
             opc = input("Seleccione: ")
 
-            if opc == "1": self._reporte_bimonetario()
-            elif opc == "2": self._exportar_csv()
-            elif opc == "0": break
+            if opc == "1":
+                self._reporte_bimonetario()
+            elif opc == "2":
+                self._exportar_csv()
+            elif opc == "0":
+                break
 
     def _reporte_bimonetario(self) -> None:
         print("\n--- LISTADO BIMONETARIO ---")
