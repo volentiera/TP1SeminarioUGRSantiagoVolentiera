@@ -1,3 +1,14 @@
+## [Ejercicio 03] - 2026-06-08
+
+### Añadido
+- Implementación de `StarComputacionSpider` con Scrapy navegando por categorías reales del sitio.
+- Creación de `items.py` con `ProductoWebItem` usando Loaders, `MapCompose` y `TakeFirst`.
+- Creación de `pipelines.py` con `PriceManagerPipeline` para limpiar precios y normalizar URLs.
+- Creación de `settings.py` con configuración de Scrapy.
+- Implementación de `run_scraper.py` con `CrawlerProcess` que ejecuta el spider real de Scrapy.
+- Integración de `scrapy-impersonate` para sortear el filtrado TLS (WAF) que devolvía 403 a las requests del cliente Scrapy por defecto.
+- Mapeo de productos internos a categorías reales de Star Computación via `CATEGORIA_MAP`.
+
 ## [Ejercicio 02] - 2026-06-07
 
 ### Añadido
