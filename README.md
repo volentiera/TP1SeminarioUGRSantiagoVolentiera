@@ -1,86 +1,78 @@
 # Price Manager
 
-## Sprint Finalizado: Sprint 1
-
-## Objetivo
-Desarrollar una aplicación de consola (CLI) en Python para gestionar el
-inventario de un local de hardware, cotizar productos en tiempo real según
-el valor del dólar y comparar precios con la competencia web.
-
-## Introducción y Contexto
-Una empresa distribuidora de productos electrónicos necesita modernizar su
-sistema de gestión de inventarios. Debido a la volatilidad económica, el
-sistema debe gestionar precios en diferentes monedas y hacer seguimiento de
-la cotización del dólar para actualizar sus valores en tiempo real.
-El desarrollo sigue una metodología incremental y colaborativa, simulando
-un entorno real de trabajo en equipo con control de versiones Git.
-
-## Sprint Actual: Sprint 2
-
-## Objetivo
-El objetivo principal de este proyecto es consolidar los conocimientos de programación orientada a objetos y evolucionar el sistema hacia el almacenamiento persistente utilizando una base de datos relacional (SQLite mediante el ORM SQLAlchemy).
-
-## Introducción y Contexto
-Una empresa distribuidora de productos electrónicos necesita modernizar su sistema de gestión de inventarios. Debido a la volatilidad económica, el sistema debe gestionar precios en diferentes monedas y hacer seguimiento de la cotización del dólar para actualizar sus valores.
-
-En este segundo sprint, hemos migrado el almacenamiento de datos inicial hacia tablas relacionales. Además, integramos el consumo de una API externa (DolarAPI) para obtener las cotizaciones en tiempo real de forma automática, garantizando transacciones seguras y persistencia a largo plazo.
-
-## Características Principales
-* **Gestión de Inventario y Stock:** Control preciso de cantidades y productos.
-* **Soporte CRUD Completo:** Creación, lectura, actualización y eliminación de Categorías, Proveedores, Monedas y Tipos de Cotización.
-* **Integración con DolarAPI:** Descarga y registro automático de cotizaciones históricas y actuales.
-* **Reportes Bimonetarios:** Visualización cruzada de precios (ARS/USD) al instante.
-* **Exportación de Datos:** Generación de listas de precios actualizadas en formato CSV.
-
-## Requisitos Previos
-El proyecto requiere Python y las siguientes librerías de terceros:
-* `sqlalchemy` (Manejo de base de datos y ORM)
-* `requests` (Consumo de la API externa)
-* `python-dotenv` (Gestión de variables de entorno)
-
-Puedes instalarlas ejecutando:
-`pip install sqlalchemy requests python-dotenv`
-
-## Configuración Inicial
-Crea un archivo llamado `.env` en la raíz del proyecto (al mismo nivel que la carpeta `src`) con el siguiente contenido:
-`API_URL=https://dolarapi.com/v1/dolares`
-
-## Instrucciones de Ejecución
-El proyecto utiliza una estructura de paquetes dentro de la carpeta `src`. Sigue estos pasos para ejecutarlo correctamente:
-
-1. Abre una terminal y posiciónate dentro de la carpeta `src`:
-   `cd src`
-
-2. Ejecuta el sistema tratando a `main.py` como un módulo de Python:
-   `python -m price_manager.main`
-
-> **Nota:** La primera vez que se ejecute el sistema, se creará automáticamente la base de datos `price_manager.db` y sus tablas correspondientes, además de precargar los datos iniciales necesarios para su funcionamiento.
-
-## Autores
-* Grupo 13 - Santiago Volentiera# Price Manager - Sprint 3
-
 ## Sprint actual
-Sprint 3 - Web Scraping y comparación de precios con la competencia.
+**Sprint 3** — Web Scraping y comparación de precios con la competencia.
+
+## Grupo
+- **Grupo nro:** 13
+- **Integrante:** Santiago Volentiera
+- **Repositorio:** https://github.com/volentiera/price_manager
 
 ## Objetivo
 Aplicar los conocimientos de programación orientada a objetos y
-persistencia de datos, incorporando la obtención de datos desde la web
-(scraping) para comparar los precios internos con los de la competencia
-(Star Computación) y generar alertas y reportes.
+persistencia de datos en base de datos relacional, incorporando la
+obtención de datos desde la web (scraping) para comparar los precios
+internos con los de la competencia (Star Computación) y generar alertas
+y reportes que faciliten la toma de decisiones comerciales.
 
 ## Introducción y contexto
-Una empresa distribuidora de productos electrónicos necesita competir
-con los precios del mercado. En este tercer sprint se obtienen los
-precios de la competencia mediante scraping, se comparan con los precios
-internos almacenados en la base de datos relacional, y se generan alertas
-(CSV) y reportes (Excel) para la toma de decisiones. El sistema registra
-además una auditoría de cada operación realizada.
+Una empresa distribuidora de productos electrónicos necesita modernizar
+su sistema de gestión de inventarios y competir con los precios del
+mercado. En este tercer sprint se obtienen los precios de la competencia
+mediante scraping, se comparan con los precios internos almacenados en
+la base de datos relacional, y se generan alertas (CSV) y reportes
+(Excel) para la toma de decisiones. El sistema registra además una
+auditoría de cada operación crítica realizada.
+
+El trabajo se basa en lo construido en los sprints anteriores:
+- **Sprint 1:** modelado de dominio con POO, persistencia en archivos CSV.
+- **Sprint 2:** migración a base de datos relacional con SQLAlchemy y
+  consumo de API externa (DolarAPI).
+- **Sprint 3:** scraping de la competencia con Scrapy y generación de
+  alertas y reportes comparativos.
 
 ## Funcionalidades principales
-- Gestión de inventario, stock y entidades (CRUD completo).
+- Gestión de inventario y stock.
+- CRUD de categorías, proveedores, monedas y tipos de cotización.
 - Cotización del dólar en tiempo real (DolarAPI).
-- Reporte bimonetario y exportación a CSV.
-- Scraping de precios de la competencia con Scrapy.
-- Generación de alertas por diferencia de precios.
-- Reporte Excel comparativo.
-- Auditoría de operaciones del sistema.
+- Reporte bimonetario (ARS/USD) y exportación a CSV.
+- Scraping de precios de la competencia con Scrapy (spider, items,
+  loaders y pipelines).
+- Generación de alertas CSV por diferencia de precios mayor a un umbral.
+- Reporte Excel comparativo entre precio interno y precio web.
+- Auditoría persistente de las operaciones del sistema.
+
+## Estructura del proyecto
+
+- `database/` — conexión SQLAlchemy.
+- `entities/` — entidades del dominio con encapsulamiento.
+- `models/` — definición de tablas SQL.
+- `migrations/` — datos semilla (CSV y SQL) y scripts de migración.
+- `preload_data/` — carga inicial de datos desde CSV / SQL.
+- `repositories/` — capa de persistencia (CRUD contra la DB).
+- `services/` — lógica de negocio.
+  - `services.py`
+  - `alertas.py`
+  - `reporte_excel.py`
+  - `auditoria.py`
+- `scraper/` — Scrapy: items, pipelines, settings, spider.
+  - `spiders/star_computacion.py`
+- `ui/console.py` — interfaz CLI.
+- `main.py` — punto de entrada.
+
+## Notas técnicas
+- **Scraping con Scrapy:** el spider `StarComputacionSpider` navega por
+  las categorías reales del sitio mediante un `CATEGORIA_MAP` y
+  estructura los datos extraídos con Loaders e Items.
+- **Bypass del WAF mediante `scrapy-impersonate`:** el sitio devuelve
+  `HTTP 403` a las requests del cliente Scrapy por defecto debido a
+  filtrado por fingerprint TLS. Se integró `scrapy-impersonate`
+  (`DOWNLOAD_HANDLERS` + `impersonate: chrome131` en los Requests) para
+  imitar el handshake TLS de Chrome y poder consumir el sitio sin
+  recurrir a librerías ajenas al ecosistema Scrapy.
+
+## Cómo ejecutar
+1. Ejecutar el notebook `03_Price_Manager_Grupo_13.ipynb` desde Colab.
+2. Las dependencias se instalan automáticamente en la primera celda.
+3. La función `main(import_default_data=True)` precarga los datos en la
+   base si la misma se encuentra vacía y arranca el menú interactivo.
